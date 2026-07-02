@@ -1,4 +1,4 @@
-from patent_forecast.v1.v1_patent_forecast import build_indication_trajectory, compute_indication_growth_rates
+from revenue_patent_forecast.forecast import build_indication_trajectory, compute_indication_growth_rates
 import pandas as pd
 # ══════════════════════════════════════════════════════════════════════════════
 # MODULE 3 — PIPELINE REVENUE FORECASTING AND MARKET CANNIBALIZATION

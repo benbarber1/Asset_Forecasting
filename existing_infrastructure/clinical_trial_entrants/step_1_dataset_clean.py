@@ -129,6 +129,59 @@ def load_and_clean_pipeline(filepath, avg_phase_durations=None):
     df = df[df['Study Status'].str.upper().str.strip().isin(valid_statuses)].copy()
     print(f"  After status filter: {len(df)} rows")
 
+    # ── Filter 1: Industry-sponsored only ────────────────────────────────────────
+    # Removes academic, NIH, and hospital-initiated trials
+    if 'Sponsor' in df.columns:
+        # Keep rows where the sponsor is a recognisable company
+        # rather than a university, hospital, or government agency
+        academic_keywords = [
+            'university', 'hospital', 'institute', 'college', 'school',
+            'center', 'centre', 'national cancer', 'nci', 'nih',
+            'foundation', 'cooperative', 'group', 'alliance', 'network'
+        ]
+        academic_pattern = '|'.join(academic_keywords)
+        is_academic = df['Sponsor'].str.lower().str.contains(
+            academic_pattern, na=False
+        )
+        df = df[~is_academic].copy()
+        print(f"  After academic sponsor filter: {len(df)} rows")
+
+
+    # ── Filter 2: Exclude combination-only trials ─────────────────────────────────
+    # If the intervention contains 3+ drugs, it is almost certainly a combination
+    # trial adding a new agent to an existing backbone — not a standalone new drug.
+    # These rarely result in a new commercial product distinct from the components.
+    if 'Interventions' in df.columns:
+        drug_count = df['Interventions'].str.count(r'(?i)drug:|biological:')
+        df = df[drug_count <= 2].copy()
+        print(f"  After combination therapy filter (≤2 drugs): {len(df)} rows")
+
+
+    # ── Filter 3: Exclude supportive care agents ─────────────────────────────────
+    # These terms in the intervention name indicate non-commercial agents
+    supportive_care_keywords = [
+        'placebo', 'saline', 'dexamethasone', 'ondansetron', 'granulocyte',
+        'filgrastim', 'pegfilgrastim', 'zoledronic', 'denosumab', 'vitamin',
+        'calcium', 'metformin', 'aspirin', 'ibuprofen'
+    ]
+    supportive_pattern = '|'.join(supportive_care_keywords)
+    if 'Interventions' in df.columns:
+        is_supportive = df['Interventions'].str.lower().str.contains(
+            supportive_pattern, na=False
+        )
+        df = df[~is_supportive].copy()
+        print(f"  After supportive care filter: {len(df)} rows")
+
+
+    # ── Filter 4: Minimum trial size proxy ───────────────────────────────────────
+    # ClinicalTrials.gov includes an enrollment figure. Trials with fewer than
+    # 50 patients are typically Phase I dose-finding studies with no near-term
+    # commercial relevance even if listed as Phase II.
+    if 'Enrollment' in df.columns:
+        df['Enrollment'] = pd.to_numeric(df['Enrollment'], errors='coerce')
+        df = df[df['Enrollment'].isna() | (df['Enrollment'] >= 50)].copy()
+        print(f"  After minimum enrolment filter (≥50): {len(df)} rows")
+
     # ── Standardise and filter phases ────────────────────────────────────────
     df['Phase_Standardised'] = (
         df['Phases'].str.upper().str.strip()

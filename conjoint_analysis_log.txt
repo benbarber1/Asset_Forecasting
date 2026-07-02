@@ -1,0 +1,73 @@
+Conjoint Pipeline Log
+Run: 2026-06-02 09:52:08
+=======================================================
+
+[STEP 1]  Load conjoint files
+  ✓  US: 230 rows loaded → 212 complete (18 incomplete removed) | RespNum offset +0
+  ✓  UK: 59 rows loaded → 45 complete (14 incomplete removed) | RespNum offset +100,000
+  ✓  FR: 47 rows loaded → 39 complete (8 incomplete removed) | RespNum offset +200,000
+  ✓  DE: 31 rows loaded → 22 complete (9 incomplete removed) | RespNum offset +300,000
+  ✓  ES: 50 rows loaded → 36 complete (14 incomplete removed) | RespNum offset +400,000
+  ✓  IT: 69 rows loaded → 41 complete (28 incomplete removed) | RespNum offset +500,000
+  ✓  Combined total: 395 respondents across 6 market(s)
+
+[STEP 2]  Remove QA failures
+  ✓  46 QA failure IDs loaded → 0 respondents removed
+  ⚠  46 QA failure IDs were not found in the dataset (already absent or ID mismatch):
+  ⚠    not matched: 01/06/2026 16:43
+  ⚠    not matched: 04/05/2026 18:31
+  ⚠    not matched: 04/05/2026 20:37
+  ⚠    not matched: 05/05/2026 09:52
+  ⚠    not matched: 13/05/2026 13:28
+  ⚠    not matched: 13/05/2026 13:59
+  ⚠    not matched: 13/05/2026 14:45
+  ⚠    not matched: 13/05/2026 14:51
+  ⚠    not matched: 13/05/2026 16:31
+  ⚠    not matched: 13/05/2026 20:03
+  ⚠    not matched: 13/05/2026 22:02
+  ⚠    not matched: 14/05/2026 00:21
+  ⚠    not matched: 14/05/2026 02:15
+  ⚠    not matched: 14/05/2026 06:00
+  ⚠    not matched: 14/05/2026 09:41
+  ⚠    not matched: 14/05/2026 10:04
+  ⚠    not matched: 14/05/2026 23:20
+  ⚠    not matched: 15/05/2026 16:45
+  ⚠    not matched: 15/05/2026 20:01
+  ⚠    not matched: 15/05/2026 21:24
+  ⚠    not matched: 16/05/2026 18:27
+  ⚠    not matched: 17/05/2026 06:57
+  ⚠    not matched: 17/05/2026 23:49
+  ⚠    not matched: 18/05/2026 00:24
+  ⚠    not matched: 18/05/2026 00:36
+  ⚠    not matched: 18/05/2026 08:53
+  ⚠    not matched: 18/05/2026 09:02
+  ⚠    not matched: 18/05/2026 13:17
+  ⚠    not matched: 18/05/2026 13:22
+  ⚠    not matched: 18/05/2026 13:29
+  ⚠    not matched: 18/05/2026 17:34
+  ⚠    not matched: 18/05/2026 18:48
+  ⚠    not matched: 20/05/2026 01:09
+  ⚠    not matched: 20/05/2026 03:18
+  ⚠    not matched: 20/05/2026 03:19
+  ⚠    not matched: 20/05/2026 09:10
+  ⚠    not matched: 20/05/2026 15:17
+  ⚠    not matched: 20/05/2026 20:17
+  ⚠    not matched: 21/05/2026 03:26
+  ⚠    not matched: 21/05/2026 15:27
+  ⚠    not matched: 23/05/2026 07:09
+  ⚠    not matched: 27/05/2026 17:46
+  ⚠    not matched: 28/05/2026 09:15
+  ⚠    not matched: Start Date
+  ⚠    not matched: StartDate
+  ⚠    not matched: {"ImportId":"startDate","timeZone":"America/New_York"}
+
+[STEP 3]  Load Qualtrics survey
+  ✓  Survey loaded: 391 respondents
+
+[STEP 4]  Merge & apply filter codes
+  ⚠  10 conjoint respondents had no match in survey file
+  ⚠  Unmapped values in 'Q2' — add to mapping dict: ['United States of America']
+  ✓  Merge complete: 395 rows in final dataset
+
+[STEP 5]  Save output
+  ✓  Output saved → C:\Users\bbarber\OneDrive - BGB Group\Documents\1) Project work\BD\BD-014\Conjoint Analysis\2 June\combined_conjoint_final_0206.csv  (395 rows, 55 columns)

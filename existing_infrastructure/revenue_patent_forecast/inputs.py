@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from v1_patent_forecast import group_by_indication, predict_revenue
+from forecast import group_by_indication, predict_revenue
 
 '''
 
@@ -11,10 +11,10 @@ Un-hash the desired databased before running.
 '''
 
 #Partially grouped dataset:
-#core_dataset = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Repo\HCA-Horizon-Suite-Intelligence\data\cleaned\drugs_revenue_prepped_cleaned_usd_20260226_standardised.xlsx"
+#core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_standardised.xlsx"
 
 #Fully grouped dataset:
-core_dataset = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Repo\HCA-Horizon-Suite-Intelligence\data\cleaned\drugs_revenue_prepped_cleaned_usd_20260226_grouped.xlsx"
+core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_grouped.xlsx"
 
 df = pd.read_excel(core_dataset)
 
@@ -63,8 +63,8 @@ indication_groups = group_by_indication(df)
 
 forecast = predict_revenue(
     indication          = 'HIV',
-    launch_year         = 2021,
-    known_revenues      = {1: 300, 2: 700, 3: 800, 4: 1400},
+    launch_year         = 2024,
+    known_revenues      = {1: 200, 2: 600},
     indication_groups   = indication_groups,
-    patent_expiry_year  = 2030,          # set to None if not yet known
+    patent_expiry_year  = 2038,          # set to None if not yet known
 )

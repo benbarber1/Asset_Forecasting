@@ -15,12 +15,12 @@ for p in sys.path:
     print(" ", p)
 
 
-from clinical_trial_forecast.ct_gov_clean_up import load_and_clean_pipeline
-from clinical_trial_forecast.prob_of_success import assign_success_probability, assign_scenarios
-from clinical_trial_forecast.revenue_forecast import forecast_pipeline_assets, calculate_cannibalization
-from clinical_trial_forecast.chart_creation import plot_full_dashboard
-from competitor_forecast.v1_comp_forecast import build_competitor_list, plot_combined_forecast, print_summary_table
-from patent_forecast.v1.v1_patent_forecast import group_by_indication, predict_revenue
+from clinical_trial_entrants.step_1_dataset_clean import load_and_clean_pipeline
+from clinical_trial_entrants.step_2_prob_of_trial_success import assign_success_probability, assign_scenarios
+from clinical_trial_entrants.step_3_cannibalisation import forecast_pipeline_assets, calculate_cannibalization
+from clinical_trial_entrants.step_4_plots import plot_full_dashboard
+from comp_analysis.comp_forecast import build_competitor_list, plot_combined_forecast, print_summary_table
+from revenue_patent_forecast.forecast import group_by_indication, predict_revenue
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FULL PIPELINE — RUN IN ORDER
@@ -43,7 +43,12 @@ However, if your asset is in a very unique indication, the partially grouped dat
 # Download the required dataset and save it somewhere in your user space
 # Paste the file location here
 
-core_dataset = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Extracirriculars\[ML model]\Datasets\grouped_core_dataset.xlsx"
+
+#Partially grouped dataset:
+#core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_standardised.xlsx"
+
+#Fully grouped dataset:
+core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_grouped.xlsx"
 
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -95,7 +100,7 @@ Restless Legs Syndrome            1
 indication_groups = group_by_indication(df)
 
 main_forecast = predict_revenue(
-    indication         = 'Cancer: Breast Cancer',
+    indication         = 'HIV',
     launch_year        = 2021,
     known_revenues     = {1: 450, 2: 820, 3: 1100},
     indication_groups  = indication_groups,
@@ -105,7 +110,7 @@ main_forecast = predict_revenue(
 # ── Step 3: Load and clean the ClinicalTrials.gov pipeline data as a csv ───────────────
 
 pipeline_raw = load_and_clean_pipeline(
-    filepath = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Extracirriculars\[ML model]\Clinical Trials\ctg-studies (3).csv"
+    filepath = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Clinical Trial Datasets\HIV 2022 Onwards.xlsx"
 )
 
 
@@ -123,11 +128,20 @@ pipeline_scored = assign_scenarios(pipeline_scored)
 competitors_input = [
     {
         'drug_name'         : 'Competitor A',
-        'indication'        : 'Cancer: Breast Cancer',
+        'indication'        : 'HIV',
         'launch_year'       : 2018,
         'known_revenues'    : {1: 300, 2: 600, 3: 950, 4: 1200},
         'patent_expiry_year': 2027,
         'drug_type'         : 'small_molecule',
+    },
+
+    {
+        'drug_name'         : 'Competitor B',
+        'indication'        : 'HIV',
+        'launch_year'       : 2024,
+        'known_revenues'    : {1: 50, 2: 300, 3: 500, 4: 1000},
+        'patent_expiry_year': 2035,
+        'drug_type'         : 'biologic',
     },
 ]
 competitor_forecasts = build_competitor_list(competitors_input, indication_groups)
@@ -142,7 +156,7 @@ for scenario in ['best', 'base', 'worst']:
     # Forecast pipeline assets for this scenario
     pipeline_forecasts = forecast_pipeline_assets(
         pipeline_df      = pipeline_scored,
-        indication_group = 'Cancer: Breast Cancer',
+        indication_group = 'HIV',
         indication_groups= indication_groups,
         scenario         = scenario,
     )

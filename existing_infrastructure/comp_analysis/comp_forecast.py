@@ -16,7 +16,7 @@ sys.path.append(str(project_root))
 
 # Import core functions from your main model file
 
-from patent_forecast.v1.v1_patent_forecast import (
+from revenue_patent_forecast.forecast import (
     group_by_indication,
     build_indication_trajectory,
     compute_indication_growth_rates,
@@ -204,7 +204,8 @@ def build_competitor_list(competitors_input, indication_groups,
 # ══════════════════════════════════════════════════════════════════════════════
 
 def plot_combined_forecast(main_asset_forecast, main_asset_name,
-                           competitor_forecasts, forecast_end_year=FORECAST_END_YEAR):
+                           competitor_forecasts, forecast_end_year=FORECAST_END_YEAR,
+                           return_figure=False):
     """
     Plots your asset of interest alongside all competitor forecasts on one chart.
 
@@ -268,7 +269,12 @@ def plot_combined_forecast(main_asset_forecast, main_asset_name,
     ax.legend(loc='upper left', framealpha=0.9, fontsize=10)
     ax.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.show()
+    
+    if return_figure:
+        return fig        # ← Streamlit uses this
+    else:
+        plt.show()        # ← terminal use still works
+    
 
 
 # ══════════════════════════════════════════════════════════════════════════════

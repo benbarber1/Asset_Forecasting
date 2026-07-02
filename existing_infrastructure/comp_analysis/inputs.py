@@ -8,8 +8,8 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-from patent_forecast.v1.v1_patent_forecast import group_by_indication, predict_revenue
-from v1_comp_forecast import build_competitor_list, plot_combined_forecast, print_summary_table
+from revenue_patent_forecast.forecast import group_by_indication, predict_revenue
+from comp_forecast import build_competitor_list, plot_combined_forecast, print_summary_table
 '''
 
 Identify whether the partially grouped or fully grouped dataset is more appropriate for your use case. 
@@ -18,10 +18,10 @@ Un-hash the desired databased before running.
 '''
 
 #Partially grouped dataset:
-#core_dataset = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Repo\HCA-Horizon-Suite-Intelligence\data\cleaned\drugs_revenue_prepped_cleaned_usd_20260226_standardised.xlsx"
+#core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_standardised.xlsx"
 
 #Fully grouped dataset:
-core_dataset = r"C:\Users\Ben.Barber\OneDrive - Ipsos\Documents\Repo\HCA-Horizon-Suite-Intelligence\data\cleaned\drugs_revenue_prepped_cleaned_usd_20260226_grouped.xlsx"
+core_dataset = r"C:\Users\bbarber\OneDrive - BGB Group\Documents\Modelling\Core Dataset\odd_grouped.xlsx"
 
 df = pd.read_excel(core_dataset)
 
